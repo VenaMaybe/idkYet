@@ -1,0 +1,3 @@
+/home/vena/Dev/raylib-idkYet/idkYet/build/CMakeFiles/idkYet.dir
+/home/vena/Dev/raylib-idkYet/idkYet/build/CMakeFiles/edit_cache.dir
+/home/vena/Dev/raylib-idkYet/idkYet/build/CMakeFiles/rebuild_cache.dir
