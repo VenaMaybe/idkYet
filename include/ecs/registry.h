@@ -29,7 +29,7 @@ public:
 		auto it = entityToIndex.find(entity);
 		if (it != entityToIndex.end()) {
 			std::uint32_t indexOfRemoved = it->second;
-			std::uint32_t indexOfLast = static_cast<std::uint32_t(components.size() - 1); // Get the last thing's index
+			std::uint32_t indexOfLast = static_cast<std::uint32_t>(components.size() - 1); // Get the last thing's index
 
 			// Goal is to keep the array compact
 

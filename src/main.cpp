@@ -3,6 +3,8 @@
 #include "random.h"
 #include "obj/obj_manager.h"
 
+#include "ecs/registry.h"
+
 int main() {
 	ObjMan manager;
 
@@ -12,6 +14,20 @@ int main() {
 		manager.render();
 		manager.update();
 	});
+
+	Registry registry;
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// Meows back to the computer
 	return 0;
