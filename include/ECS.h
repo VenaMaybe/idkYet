@@ -1,3 +1,0 @@
-// ECS.h
-#pragma once
-

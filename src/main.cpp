@@ -1,7 +1,7 @@
 #include <iostream>
 #include "main_render.h"
 #include "random.h"
-#include "oop_appraoch/obj_manager.h"
+#include "obj/obj_manager.h"
 
 int main() {
 	ObjMan manager;
