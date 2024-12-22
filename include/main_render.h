@@ -1,7 +1,7 @@
+// main_render.h
 #pragma once
 #include <functional>
 #include "raylib.h"
-#include "obj_manager.h"
 
 // Raylib preamble
 void beginRaylibEnv(

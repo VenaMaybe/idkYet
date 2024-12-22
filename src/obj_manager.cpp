@@ -1,6 +1,6 @@
 #include <vector>
 #include <algorithm> // for remove_if
-#include "obj_manager.h"
+#include "oop_appraoch/obj_manager.h"
 
 std::string Object::getType() {
 	return objType;
