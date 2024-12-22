@@ -6,7 +6,7 @@ void beginRaylibEnv(std::function<void()> doPerFrame, int SCREEN_WIDTH,	int SCRE
 	SetTraceLogLevel(LOG_WARNING);
 
 	// Initialize the window
-	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Graph Plotter v1");
+	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Inital Window");
 	SetTargetFPS(30);
 	
 	// Main game loop

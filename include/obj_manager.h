@@ -10,7 +10,7 @@ public:
 	void update();
 
 	void addObject(std::unique_ptr<Object> obj);
-	void removeObjectViaPtr(Object* objToRemove);
+	// void removeObjectViaPtr(Object* objToRemove);
 
 private:
 	// Holds a list of every object in the scene

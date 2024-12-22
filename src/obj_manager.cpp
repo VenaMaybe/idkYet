@@ -20,16 +20,32 @@ void ObjMan::update() {
 	// Call objects update function
 	for (const auto& object : objects)
 		object->update();
+	
+	// Collect and remove after update
+	auto removeIt = std::remove_if(
+		objects.begin(),
+		objects.end(),
+		// Lambda to find the predicate, check removal flag
+		[](const std::unique_ptr<Object>& obj) {
+			return obj->isMarkedForRemoval();
+		}
+	);
+
+	// Erase the elements form removeIt to the end
+	objects.erase(removeIt, objects.end());
 }
 
 void ObjMan::addObject(std::unique_ptr<Object> obj) {
 	objects.push_back(std::move(obj)); // Move ownership to the vector
 }
 
-void ObjMan::removeObjectViaPtr(Object* objToRemove) {
+// Depricated, remove via pointer now remove via flag and sweep
+/* void ObjMan::removeObjectViaPtr(Object* objToRemove) {
+	if (!objToRemove) throw std::runtime_error("Tried to remove dangling pointer");
+
 	// Moves elements to where predicate(true) to end of vector
 	// 		w/ iterator to the first element to be erased
-	auto it = std::remove_if( // Will remove all objects with that pointer
+	auto removeIt = std::remove_if( // Will remove all objects with that pointer
 		objects.begin(),
 		objects.end(),
 		// Lambda to find the predicate
@@ -38,6 +54,6 @@ void ObjMan::removeObjectViaPtr(Object* objToRemove) {
 		}
 	);
 
-	// Erase the elements form it to the end
-	objects.erase(it, objects.end());
-}
+	// Erase the elements form removeIt to the end
+	objects.erase(removeIt, objects.end());
+} */
