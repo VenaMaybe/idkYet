@@ -12,4 +12,5 @@ private:
 public:
 	// Generate a random integer within a given range
 	static int getRandomInt(int min, int max);
+	static float getRandomFloat(float min, float max);
 };

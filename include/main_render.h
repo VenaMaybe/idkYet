@@ -1,4 +1,3 @@
-// main_render.h
 #pragma once
 #include <functional>
 #include "raylib.h"

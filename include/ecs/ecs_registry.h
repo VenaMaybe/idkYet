@@ -6,6 +6,9 @@
 #include <typeindex>
 #include "ecs_types.h"
 
+#include <iostream>
+#include <cassert>
+
 // This is a base class so we can store different ComponentArray<T> 
 // in a single container while still being able to operate on them 
 // generically through a pointer to the base class
@@ -107,7 +110,7 @@ public:
 
 		// Populate the componentMaps with the mappings for each component type
 		// This uses a fold expression to execute the push_back call for each component in Components
-		(componentMaps.push_back(&getComponentArray<Components>()->entityToIndex), ...);
+		(componentMaps.push_back(&getComponentArray<Components>()->getEntityToIndexMap()), ...);
 
 		// If no components are requested, return an empty list
 		if (componentMaps.empty()) {
@@ -171,3 +174,69 @@ private:
 
 /* Notes */
 // Don't use inline for template functions or methods inside a template class since they are implicitly treated as inline
+
+/*
+
+Key (type_index)        Value (unique_ptr to ComponentArray<T>)
+-------------------      --------------------------------------
+typeid(Position)         ┌──────────────────────────────┐
+                         │ ComponentArray<Position>     │
+                         │ ┌─────────────────────────┐  │
+                         │ │ EntityToIndex Map       │  │
+                         │ │ {                       │  │
+                         │ │   Entity1: 0,           │  │
+                         │ │   Entity2: 1            │  │
+                         │ │ }                       │  │
+                         │ ├─────────────────────────┤  │
+                         │ │ Components Vector       │  │
+                         │ │ [                       │  │
+                         │ │   Position{x=0, y=0},   │  │
+                         │ │   Position{x=1, y=1}    │  │
+                         │ │ ]                       │  │
+                         │ └─────────────────────────┘  │
+                         └──────────────────────────────┘
+
+typeid(Velocity)         ┌──────────────────────────────┐
+                         │ ComponentArray<Velocity>     │
+                         │ ┌─────────────────────────┐  │
+                         │ │ EntityToIndex Map       │  │
+                         │ │ {                       │  │
+                         │ │   Entity3: 0,           │  │
+                         │ │   Entity4: 1            │  │
+                         │ │ }                       │  │
+                         │ ├─────────────────────────┤  │
+                         │ │ Components Vector       │  │
+                         │ │ [                       │  │
+                         │ │   Velocity{vx=10, vy=0},│  │
+                         │ │   Velocity{vx=5, vy=3}  │  │
+                         │ │ ]                       │  │
+                         │ └─────────────────────────┘  │
+                         └──────────────────────────────┘
+or
+
+componentArrays:
+{
+    type_index(typeid(Position)) -> unique_ptr<ComponentArray<Position>>:
+    {
+        components: [
+            {x = 1.0, y = 2.0},  // Index 0
+            {x = 3.0, y = 4.0}   // Index 1
+        ],
+        entityToIndex: {
+            1 -> 0,  // Entity 1 maps to index 0
+            2 -> 1   // Entity 2 maps to index 1
+        }
+    },
+    type_index(typeid(Velocity)) -> unique_ptr<ComponentArray<Velocity>>:
+    {
+        components: [
+            {vx = 5.0, vy = 6.0},  // Index 0
+            {vx = 7.0, vy = 8.0}   // Index 1
+        ],
+        entityToIndex: {
+            2 -> 0,  // Entity 2 maps to index 0
+            3 -> 1   // Entity 3 maps to index 1
+        }
+    }
+}
+*/

@@ -15,6 +15,7 @@ int main() {
 	GameInstance* mainGame = manager.getObjectByNameAs<GameInstance>("MainGame");
 
 
+	mainGame->initialize(&registry);	
 	
 
 
