@@ -7,7 +7,7 @@ void beginRaylibEnv(std::function<void()> doPerFrame, int SCREEN_WIDTH,	int SCRE
 
 	// Initialize the window
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Inital Window");
-	SetTargetFPS(30);
+	SetTargetFPS(60);
 	
 	// Main game loop
 	while (!WindowShouldClose()) { // Detect window close button or ESC key

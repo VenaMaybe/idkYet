@@ -2,10 +2,6 @@
 #include <algorithm> // for remove_if
 #include "obj/obj_manager.h"
 
-std::string Object::getType() {
-	return objType;
-}
-
 // Constructor
 ObjMan::ObjMan() {}
 
@@ -16,10 +12,10 @@ void ObjMan::render() const {
 		object->render();
 }
 
-void ObjMan::update() {
+void ObjMan::update(float dt) {
 	// Call objects update function
 	for (const auto& object : objects)
-		object->update();
+		object->update(dt);
 	
 	// Collect and remove after update
 	auto removeIt = std::remove_if(
@@ -37,6 +33,15 @@ void ObjMan::update() {
 
 void ObjMan::addObject(std::unique_ptr<Object> obj) {
 	objects.push_back(std::move(obj)); // Move ownership to the vector
+	Object* objPtr = objects.back().get();
+	nameToObject[objPtr->getName()] = objPtr;
+}
+
+Object* ObjMan::getObjectByName(const std::string& name) {
+	if (nameToObject.find(name) != nameToObject.end()) { // safety check
+		return nameToObject[name];
+	}
+	return nullptr;
 }
 
 // Depricated, remove via pointer now remove via flag and sweep

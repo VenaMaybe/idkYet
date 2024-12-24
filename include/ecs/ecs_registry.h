@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
 #include <vector>
+#include <algorithm>
 #include <unordered_map>
 #include <typeindex>
-#include "entity.h"
+#include "ecs_types.h"
 
 // This is a base class so we can store different ComponentArray<T> 
 // in a single container while still being able to operate on them 
@@ -60,6 +61,10 @@ public:
 		}
 		return nullptr;
 	}
+	// Return the entityToIndex map const
+	inline const auto& getEntityToIndexMap() const {
+		return entityToIndex;
+	}
 private:
 	// Contiguous storage of the components
 	std::vector<T> components;
@@ -94,16 +99,58 @@ public:
 		return getComponentArray<T>()->get(entity);
 	}
 
+	// Get all entities that have all the specified components
+	template<typename... Components> // This is a Variadic Template
+	std::vector<Entity> getEntityWith() {
+		// Place to store the component arrays for the requested types
+		std::vector<const std::unordered_map<Entity, std::uint32_t>*> componentMaps;
+
+		// Populate the componentMaps with the mappings for each component type
+		// This uses a fold expression to execute the push_back call for each component in Components
+		(componentMaps.push_back(&getComponentArray<Components>()->entityToIndex), ...);
+
+		// If no components are requested, return an empty list
+		if (componentMaps.empty()) {
+			return {};
+		}
+
+		// Start with the smallest map to minimize the number of comparisons
+		auto smallestMap = *std::min_element(
+			componentMaps.begin(),
+			componentMaps.end(),
+			[](const auto* a, const auto* b) { return a->size() < b->size(); }
+		);
+
+		// Iterate over entities in the smallest map
+		std::vector<Entity> entities;
+		for (const auto& [entity, _] : *smallestMap) { // _ is just unused value
+			bool hasAllComponents = true;
+
+			// Check if this entity exists in all other component maps
+			for (const auto* map : componentMaps) {
+				if (map->find(entity) == map->end()) {
+					hasAllComponents = false;
+					break;
+				}
+			}
+
+			// If the entity exists in all component maps, add it to the result
+			if (hasAllComponents) {
+				entities.push_back(entity);
+			}
+
+		}
+
+		return entities;
+	}
+
 private:
 	Entity nextEntityId = 0; // Simple entity id system
 
 	// std::type_index let's you use typeid() as a key
-
 	// This is the core data structure: unordered_map<type_index, unique_ptr<IComponentArray>>
-
 	// So for each type T, we have a unique_ptr<ComponentArray<T>> stored under
 	//   key = typeid(T)
-
 	// This is how we store an unknown number of different component types at runtime.
 	std::unordered_map<std::type_index, std::unique_ptr<IComponentArray>> componentArrays;
 

@@ -10,3 +10,16 @@ const Entity MAX_ENTITIES = 5000;
 
 // Forward declare the registry
 class Registry;
+
+/*
+
+modify to use 
+using ComponentType = std::type_index;
+using ComponentID = std::uint32_t;
+
+constexpr Entity INVALID_ENTITY = 0;
+
+and other Aliases later!!
+
+
+*/
