@@ -2,11 +2,14 @@
 #include <functional>
 #include "raylib.h"
 
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 800;
+
 // Raylib preamble
 void beginRaylibEnv(
 	std::function<void()> doPerFrame = nullptr,
-	int SCREEN_WIDTH = 800,
-	int SCREEN_HEIGHT = 450
+	int screen_width = SCREEN_WIDTH,
+	int screen_height = SCREEN_HEIGHT
 );
 
 // Drawing outlined text utility function

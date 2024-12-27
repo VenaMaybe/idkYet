@@ -4,47 +4,27 @@
 #include "main_render.h"
 #include "random.h"
 
-void beginRaylibEnv(std::function<void()> doPerFrame, int SCREEN_WIDTH,	int SCREEN_HEIGHT) {
+void beginRaylibEnv(std::function<void()> doPerFrame, int screen_width,	int screen_height) {
 	// Don't want INFO logs
 	SetTraceLogLevel(LOG_WARNING);
 
 	// Initialize the window
-	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Inital Window");
-	SetTargetFPS(60);
+	InitWindow(screen_width, screen_height, "Inital Window");
+	// SetTargetFPS(60);
 	
 	// Main game loop
 	while (!WindowShouldClose()) { // Detect window close button or ESC key
 		// Start drawing
 		BeginDrawing();
 		ClearBackground(BLACK);
-		DrawFPS(10, 10); // Draw FPS 
 
 		// What happens every frame
 		if (doPerFrame) {
 			doPerFrame();
 		}
 
-		// Start a batch for rendering quads
-		rlBegin(RL_QUADS);
-
-
-		// Define a 2x2 rectangle at the position (pos->x, pos->y)
-		float x = 100.f;
-		float y = 100.f;
-		float width = 20.0f;
-		float height = 20.0f;
-
-		// Add quad vertices (Clockwise order)
-		rlColor4ub(255, 1, 255, 255); // Set color (RAYWHITE equivalent)
-		rlVertex2f(x, y);                   // Top-left
-		rlVertex2f(x + width, y);           // Top-right
-		rlVertex2f(x + width, y + height);  // Bottom-right
-		rlVertex2f(x, y + height);          // Bottom-left
 		
-
-		// End the batch
-		rlEnd();
-
+		DrawFPS(10, 10); // Draw FPS 
 		// End drawing
 		EndDrawing();
 	}

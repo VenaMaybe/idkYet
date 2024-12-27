@@ -1,6 +1,7 @@
 #include "obj/obj_game.h"
 #include "ecs/ecs_components.h"
 #include "ecs/ecs_system.h"
+#include "main_render.h"
 #include "random.h"
 
 void GameInstance::initialize(Registry* registry) {
@@ -13,18 +14,21 @@ void GameInstance::initialize(Registry* registry) {
 }
 
 void GameInstance::update(float dt) {
-	MovementSystem(*registry, dt);
-	// MovementSystemAll(*registry, dt);
+	// MovementSystem(*registry, dt);
+	MovementSystemAll(*registry, dt);
 }
 
 void GameInstance::render() const {
-	RenderSystem(*registry);
+	RenderSystemRLGL(*registry);
+	// RenderSystem(*registry);
 }
 
 void GameInstance::initializeGameEntities(Registry* r) {
 	for (size_t i = 0; i < 10000; i++)	{
 		Entity lilGuy = r->createEntity();
-		r->addComponent(lilGuy, Position{400.f, 225.f});
+		float width = static_cast<float>(SCREEN_WIDTH);
+		float height = static_cast<float>(SCREEN_HEIGHT);
+		r->addComponent(lilGuy, Position{width/2, height/2});
 		r->addComponent(lilGuy, Velocity{Random::getRandomFloat(-20.f, 20.f), Random::getRandomFloat(-20.f, 20.f)});
 	}
 }
