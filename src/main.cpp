@@ -6,7 +6,7 @@
 #include "obj/obj_manager.h"
 #include "obj/obj_game.h"
 
-#include "ecs/ecs_registry.h"
+#include "ecs/ecs_registry_sparse.h"
 
 int main() {
 	ObjMan manager;		// All objects, e.g. Game, UI element, 

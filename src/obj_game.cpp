@@ -15,16 +15,16 @@ void GameInstance::initialize(Registry* registry) {
 
 void GameInstance::update(float dt) {
 	// MovementSystem(*registry, dt);
-	MovementSystemAll(*registry, dt);
+	MovementSystem_DirectIteration(*registry, dt);
 }
 
 void GameInstance::render() const {
-	RenderSystemRLGL(*registry);
+	RenderSystemRLGL_DirectIteration(*registry);
 	// RenderSystem(*registry);
 }
 
 void GameInstance::initializeGameEntities(Registry* r) {
-	for (size_t i = 0; i < 10000; i++)	{
+	for (size_t i = 0; i < 100000; i++)	{
 		Entity lilGuy = r->createEntity();
 		float width = static_cast<float>(SCREEN_WIDTH);
 		float height = static_cast<float>(SCREEN_HEIGHT);

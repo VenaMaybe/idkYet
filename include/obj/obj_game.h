@@ -1,7 +1,7 @@
 #pragma once
 
 #include "obj/object.h"
-#include "ecs/ecs_registry.h"
+#include "ecs/ecs_registry_sparse.h"
 
 // An instance of the loaded game
 class GameInstance : public Object{
